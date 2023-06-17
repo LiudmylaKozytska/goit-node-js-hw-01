@@ -1,23 +1,54 @@
-/*
- * Розкоментуй і запиши значення
- * const contactsPath = ;
- */
+const fs = require("fs/promises");
+const { nanoid } = require("nanoid");
 
-function listContacts() {
-  // ...твій код. Повертає масив контактів.
-  console.log("list contacts");
+const contactsPath = require("path").join(__dirname, "db/contacts.json");
+
+async function listContacts() {
+  try {
+    const data = await fs.readFile(contactsPath);
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("Error reading contacts file:", error);
+    return [];
+  }
 }
 
-function getContactById(contactId) {
-  // ...твій код. Повертає об'єкт контакту з таким id. Повертає null, якщо контакт з таким id не знайдений.
+async function getContactById(contactId) {
+  try {
+    const contacts = await listContacts();
+    return contacts.find((contact) => contact.id === contactId);
+  } catch (error) {
+    console.error("Error getting contact by ID:", error);
+    return null;
+  }
 }
 
-function removeContact(contactId) {
-  // ...твій код. Повертає об'єкт видаленого контакту. Повертає null, якщо контакт з таким id не знайдений.
+async function removeContact(contactId) {
+  try {
+    const contacts = await listContacts();
+    const updatedContacts = contacts.filter(
+      (contact) => contact.id !== contactId
+    );
+    const removedContact = getContactById(contactId);
+    await fs.writeFile(contactsPath, JSON.stringify(updatedContacts, null, 2));
+    return removedContact;
+  } catch (error) {
+    console.error("Error removing contact:", error);
+    return null;
+  }
 }
 
-function addContact(name, email, phone) {
-  // ...твій код. Повертає об'єкт доданого контакту.
+async function addContact(name, email, phone) {
+  try {
+    const contacts = await listContacts();
+    const newContact = { id: nanoid(), name, email, phone };
+    contacts.push(newContact);
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+    return newContact;
+  } catch (error) {
+    console.error("Error adding contact:", error);
+    return null;
+  }
 }
 
 module.exports = {
