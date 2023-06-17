@@ -1,0 +1,31 @@
+{
+  "name": "goit-node-js-hw-01",
+  "version": "1.0.0",
+  "description": "first homework node.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "engines": {
+    "npm": "8.11.0",
+    "node": "v16.16.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LiudmylaKozytska/goit-node-js-hw-01"
+  },
+  "keywords": [
+    "goit"
+  ],
+  "author": "LiudmylaKozytska",
+  "private": "true",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "dependencies": {
+    "commander": "^11.0.0",
+    "cors": "^2.8.5"
+  }
+}
